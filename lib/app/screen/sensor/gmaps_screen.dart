@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vsga/app/screen/gps_screen.dart';
-import 'package:vsga/app/screen/map_screen.dart';
+import 'package:vsga/app/screen/sensor/gps_screen.dart';
+import 'package:vsga/app/screen/sensor/map_screen.dart';
 
 class GpsAndMapScreen extends StatelessWidget {
   const GpsAndMapScreen({super.key});

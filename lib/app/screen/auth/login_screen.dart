@@ -1,17 +1,16 @@
-// 4. LOGIN SCREEN
-// lib/screens/login_screen.dart
+// lib/screens/login_admin_screen.dart
 import 'package:flutter/material.dart';
 import 'package:vsga/app/service/auth_service.dart';
-import 'home_screen.dart';
+import '../home/home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginAdminScreen extends StatefulWidget {
+  const LoginAdminScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginAdminScreen> createState() => _LoginAdminScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _LoginAdminScreenState extends State<LoginAdminScreen>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
@@ -53,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen>
       AuthResult result = await _authService.login(
         _usernameController.text.trim(),
         _passwordController.text,
+        'admin', // Specify role as admin
       );
 
       if (result.success && result.user != null) {
@@ -85,12 +85,21 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      extendBodyBehindAppBar: true,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.blue.shade600, Colors.purple.shade600],
+            colors: [Colors.orange.shade600, Colors.red.shade600],
           ),
         ),
         child: SafeArea(
@@ -119,14 +128,14 @@ class _LoginScreenState extends State<LoginScreen>
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  Colors.blue.shade400,
-                                  Colors.purple.shade400,
+                                  Colors.orange.shade400,
+                                  Colors.red.shade400,
                                 ],
                               ),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
-                              Icons.person,
+                              Icons.admin_panel_settings,
                               size: 40,
                               color: Colors.white,
                             ),
@@ -135,18 +144,18 @@ class _LoginScreenState extends State<LoginScreen>
 
                           // Title
                           Text(
-                            'Selamat Datang',
-                            style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey.shade800,
-                                ),
+                            'Login User',
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade800,
+                            ),
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Masuk ke akun Anda',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: Colors.grey.shade600),
+                            'Masuk sebagai administrator',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                           const SizedBox(height: 32),
 
@@ -156,8 +165,8 @@ class _LoginScreenState extends State<LoginScreen>
                             decoration: InputDecoration(
                               labelText: 'Username atau Email',
                               prefixIcon: Icon(
-                                Icons.person_outline,
-                                color: Colors.blue.shade600,
+                                Icons.admin_panel_settings_outlined,
+                                color: Colors.orange.shade600,
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -171,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen>
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color: Colors.blue.shade600,
+                                  color: Colors.orange.shade600,
                                   width: 2,
                                 ),
                               ),
@@ -193,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen>
                               labelText: 'Password',
                               prefixIcon: Icon(
                                 Icons.lock_outline,
-                                color: Colors.blue.shade600,
+                                color: Colors.orange.shade600,
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -203,9 +212,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   color: Colors.grey.shade600,
                                 ),
                                 onPressed: () {
-                                  setState(
-                                    () => _obscurePassword = !_obscurePassword,
-                                  );
+                                  setState(() => _obscurePassword = !_obscurePassword);
                                 },
                               ),
                               border: OutlineInputBorder(
@@ -220,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen>
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color: Colors.blue.shade600,
+                                  color: Colors.orange.shade600,
                                   width: 2,
                                 ),
                               ),
@@ -244,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen>
                             child: ElevatedButton(
                               onPressed: _isLoading ? null : _handleLogin,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue.shade600,
+                                backgroundColor: Colors.orange.shade600,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -257,10 +264,9 @@ class _LoginScreenState extends State<LoginScreen>
                                       height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              Colors.white,
-                                            ),
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
+                                        ),
                                       ),
                                     )
                                   : const Text(

@@ -1,4 +1,4 @@
-import 'package:sqflite/sqflite.dart';
+
 import 'package:vsga/app/models/Accellerator.dart';
 import 'package:vsga/app/service/database_service.dart';
 
